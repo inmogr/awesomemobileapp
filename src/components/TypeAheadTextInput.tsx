@@ -70,6 +70,7 @@ const TypeAheadTextInput: React.FC<TypeAheadTextInputProps> = ({
       />
       {isDropdownVisible && (
         <FlatList
+          scrollEnabled={false}
           style={styles.dropdown}
           data={filteredSuggestions}
           keyExtractor={(item, index) => `${item}-${index}`}
