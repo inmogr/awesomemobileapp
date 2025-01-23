@@ -13,7 +13,7 @@ function App(): React.JSX.Element {
   const formData: FormType = FormData;
   const formDataSectionNames = Object.keys(formData);
 
-  const form = useForm({defaultValues: STORED_FROM_LAST_SESSION});
+  const form = useForm({defaultValues: STORED_FROM_LAST_SESSION, shouldUnregister: true});
 
   return (
     <FormProvider {...form}>
