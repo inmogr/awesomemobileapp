@@ -5,8 +5,8 @@ import FormData from './src/constants/FormData.json';
 import {FormType} from './src/types/FormTypes';
 
 function App(): React.JSX.Element {
-  const form: FormType = FormData;
-  const formSectionNames = Object.keys(form);
+  const formData: FormType = FormData;
+  const formDataSectionNames = Object.keys(formData);
 
   return (
     <SafeAreaView>
@@ -14,8 +14,8 @@ function App(): React.JSX.Element {
       <ScrollView
         contentInsetAdjustmentBehavior="automatic"
         style={{paddingHorizontal: 16}}>
-        {formSectionNames.map(formSectionName => {
-          const formSection = form[formSectionName];
+        {formDataSectionNames.map(formSectionName => {
+          const formSection = formData[formSectionName];
           return (
             <InputSection
               key={formSectionName}
