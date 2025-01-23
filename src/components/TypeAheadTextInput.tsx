@@ -52,7 +52,7 @@ const TypeAheadTextInput: React.FC<TypeAheadTextInputProps> = ({
     if (filteredSuggestions.length) {
       handleSelect(filteredSuggestions[0]);
     } else if (!suggestions.includes(value)) {
-      handleChange("");
+      handleChange('');
       setFilteredSuggestions([]);
       setIsDropdownVisible(false);
     }
