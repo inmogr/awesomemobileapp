@@ -5,7 +5,7 @@ import {
   localStorageSetObject,
 } from '../utilities/localStorage';
 import {StyleSheet, Text, TouchableOpacity} from 'react-native';
-import { isObjectEmpty } from "../utilities/isObjectEmpty";
+import {isObjectEmpty} from '../utilities/isObjectEmpty';
 
 export const SAVE_KEY = 'ABCD_FORM';
 export const STORED_FROM_LAST_SESSION = localStorageGetObject(SAVE_KEY);
@@ -13,8 +13,11 @@ export const STORED_FROM_LAST_SESSION = localStorageGetObject(SAVE_KEY);
 export const SaveAndSubmitForm: React.FC = () => {
   const form = useFormContext();
   const isDirty = !!STORED_FROM_LAST_SESSION || form.formState.isDirty;
-  const isDisabled = !isObjectEmpty(form.formState.errors) || !isDirty || !form.formState.isValid;
-  
+  const isDisabled =
+    !isObjectEmpty(form.formState.errors) ||
+    !isDirty ||
+    !form.formState.isValid;
+
   const watched = form.watch();
 
   React.useMemo(() => {
