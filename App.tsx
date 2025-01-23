@@ -11,7 +11,7 @@ function App(): React.JSX.Element {
   return (
     <SafeAreaView>
       <StatusBar barStyle="dark-content" />
-      <ScrollView contentInsetAdjustmentBehavior="automatic">
+      <ScrollView contentInsetAdjustmentBehavior="automatic" style={{ paddingHorizontal: 16 }}>
         {formSectionNames.map(formSectionName => {
           const formSection = form[formSectionName];
           return (
