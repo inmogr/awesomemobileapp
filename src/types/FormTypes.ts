@@ -6,7 +6,7 @@ export interface FormPropertyType {
   regexFlags?: string;
 
   items?: string[];
-  enums?: string[];
+  enum?: string[];
 }
 
 export interface FormSectionType {

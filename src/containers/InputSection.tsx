@@ -4,6 +4,7 @@ import RadioGroupInput from '../components/RadioGroupInput';
 import CheckBoxGroupInput from '../components/CheckBoxGroupInput';
 import {Controller, useForm} from 'react-hook-form';
 import {FormPropertyType, FormSectionType} from '../types/FormTypes';
+import TypeAheadTextInput from "../components/TypeAheadTextInput";
 
 const getInitialValue = (property: FormPropertyType) => {
   switch (property.type) {
@@ -69,7 +70,7 @@ export const InputSection: React.FC<InputSectionProps> = props => {
             control={form.control}
             name={fieldName}
             render={({field}) => (
-              <SingleLineTextInput
+              <TypeAheadTextInput
                 label={property.description}
                 value={field.value}
                 handleChange={field.onChange}
@@ -77,6 +78,7 @@ export const InputSection: React.FC<InputSectionProps> = props => {
                   fieldName
                 ]?.message?.toString()}
                 isDisabled={field.disabled}
+                suggestions={property.enum!}
               />
             )}
           />
