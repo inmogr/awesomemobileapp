@@ -30,7 +30,9 @@ export const InputSection: React.FC<InputSectionProps> = props => {
   const form = useForm();
 
   React.useMemo(() => {
-    // NOTE: remember those fields are unlikely to be changed even if we refetch and refetch.... therefore we don't need to register again for every render
+    // NOTE: remember those fields are unlikely to be changed even if we refetch and refetch...
+    // maybe monthly or annually would change but not necessarily....
+    // therefore we don't need to register again for every render
     props.fieldNames.forEach(fieldName => {
       const property = props.properties[fieldName];
       form.register(fieldName, {
