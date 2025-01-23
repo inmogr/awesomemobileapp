@@ -24,10 +24,15 @@ export const SaveAndSubmitForm: React.FC = () => {
         // for now i'm clearing all, in real case we will remove form field names only
         localStorage.clearAll();
         setTimeout(() => {
-        form.reset();
+          form.reset();
         }, 100);
       }
     } catch (error) {
+      // Test it at your own convenience
+      // localStorage.clearAll();
+      // setTimeout(() => {
+      //   form.reset();
+      // }, 100);
       // TODO
     }
   };
