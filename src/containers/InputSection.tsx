@@ -2,12 +2,16 @@ import React from 'react';
 import SingleLineTextInput from '../components/SingleLineTextInput';
 import RadioGroupInput from '../components/RadioGroupInput';
 import CheckBoxGroupInput from '../components/CheckBoxGroupInput';
-import {Controller, useForm} from 'react-hook-form';
+import {Controller, useForm, FormProvider} from 'react-hook-form';
 import {FormPropertyType, FormSectionType} from '../types/FormTypes';
 import TypeAheadTextInput from '../components/TypeAheadTextInput';
 import Collapsible from 'react-native-collapsible';
+import {STORED_FROM_LAST_SESSION, SaveAndSubmitForm} from './SaveAndSubmitForm';
 
 const getInitialValue = (property: FormPropertyType) => {
+  if (STORED_FROM_LAST_SESSION) {
+    return undefined;
+  }
   switch (property.type) {
     case 'text':
       return '';
@@ -28,7 +32,7 @@ interface InputSectionProps {
 }
 
 export const InputSection: React.FC<InputSectionProps> = props => {
-  const form = useForm();
+  const form = useForm({defaultValues: STORED_FROM_LAST_SESSION});
 
   React.useMemo(() => {
     // NOTE: remember those fields are unlikely to be changed even if we refetch and refetch...
@@ -46,124 +50,130 @@ export const InputSection: React.FC<InputSectionProps> = props => {
     });
   }, []);
 
-  return props.fieldNames.map(fieldName => {
-    const property = props.properties[fieldName];
-    switch (property.type) {
-      case 'text':
-        return (
-          <Controller
-            key={fieldName}
-            control={form.control}
-            name={fieldName}
-            render={({field}) => (
-              <React.Fragment>
-                <SingleLineTextInput
-                  label={property.description}
-                  value={field.value}
-                  handleChange={field.onChange}
-                  errorMessage={form.formState.errors[
-                    fieldName
-                  ]?.message?.toString()}
-                  isDisabled={field.disabled}
-                />
+  return (
+    <FormProvider {...form}>
+      {props.fieldNames.map(fieldName => {
+        const property = props.properties[fieldName];
+        switch (property.type) {
+          case 'text':
+            return (
+              <Controller
+                key={fieldName}
+                control={form.control}
+                name={fieldName}
+                render={({field}) => (
+                  <React.Fragment>
+                    <SingleLineTextInput
+                      label={property.description}
+                      value={field.value}
+                      handleChange={field.onChange}
+                      errorMessage={form.formState.errors[
+                        fieldName
+                      ]?.message?.toString()}
+                      isDisabled={field.disabled}
+                    />
 
-                <InputSubItems
-                  fieldName={fieldName}
-                  property={property}
-                  values={field.value ? [field.value] : []}
-                />
-              </React.Fragment>
-            )}
-          />
-        );
-      case 'typeahead':
-        return (
-          <Controller
-            key={fieldName}
-            control={form.control}
-            name={fieldName}
-            render={({field}) => (
-              <React.Fragment>
-                <TypeAheadTextInput
-                  label={property.description}
-                  value={field.value}
-                  handleChange={field.onChange}
-                  errorMessage={form.formState.errors[
-                    fieldName
-                  ]?.message?.toString()}
-                  isDisabled={field.disabled}
-                  suggestions={property.enum!}
-                />
+                    <InputSubItems
+                      fieldName={fieldName}
+                      property={property}
+                      values={field.value ? [field.value] : []}
+                    />
+                  </React.Fragment>
+                )}
+              />
+            );
+          case 'typeahead':
+            return (
+              <Controller
+                key={fieldName}
+                control={form.control}
+                name={fieldName}
+                render={({field}) => (
+                  <React.Fragment>
+                    <TypeAheadTextInput
+                      label={property.description}
+                      value={field.value}
+                      handleChange={field.onChange}
+                      errorMessage={form.formState.errors[
+                        fieldName
+                      ]?.message?.toString()}
+                      isDisabled={field.disabled}
+                      suggestions={property.enum!}
+                    />
 
-                <InputSubItems
-                  fieldName={fieldName}
-                  property={property}
-                  values={field.value ? [field.value] : []}
-                />
-              </React.Fragment>
-            )}
-          />
-        );
-      case 'select':
-        return (
-          <Controller
-            key={fieldName}
-            control={form.control}
-            name={fieldName}
-            render={({field}) => (
-              <React.Fragment>
-                <RadioGroupInput
-                  label={property.description}
-                  value={field.value}
-                  handleChange={field.onChange}
-                  errorMessage={form.formState.errors[
-                    fieldName
-                  ]?.message?.toString()}
-                  isDisabled={field.disabled}
-                  items={property.items!}
-                />
+                    <InputSubItems
+                      fieldName={fieldName}
+                      property={property}
+                      values={field.value ? [field.value] : []}
+                    />
+                  </React.Fragment>
+                )}
+              />
+            );
+          case 'select':
+            return (
+              <Controller
+                key={fieldName}
+                control={form.control}
+                name={fieldName}
+                render={({field}) => (
+                  <React.Fragment>
+                    <RadioGroupInput
+                      label={property.description}
+                      value={field.value}
+                      handleChange={field.onChange}
+                      errorMessage={form.formState.errors[
+                        fieldName
+                      ]?.message?.toString()}
+                      isDisabled={field.disabled}
+                      items={property.items!}
+                    />
 
-                <InputSubItems
-                  fieldName={fieldName}
-                  property={property}
-                  values={field.value ? [field.value] : []}
-                />
-              </React.Fragment>
-            )}
-          />
-        );
-      case 'multiselect':
-        return (
-          <Controller
-            key={fieldName}
-            control={form.control}
-            name={fieldName}
-            render={({field}) => (
-              <React.Fragment>
-                <CheckBoxGroupInput
-                  label={property.description}
-                  values={field.value}
-                  handleChange={field.onChange}
-                  errorMessage={form.formState.errors[
-                    fieldName
-                  ]?.message?.toString()}
-                  isDisabled={field.disabled}
-                  items={property.items!}
-                />
+                    <InputSubItems
+                      fieldName={fieldName}
+                      property={property}
+                      values={field.value ? [field.value] : []}
+                    />
+                  </React.Fragment>
+                )}
+              />
+            );
+          case 'multiselect':
+            return (
+              <Controller
+                key={fieldName}
+                control={form.control}
+                name={fieldName}
+                render={({field}) => (
+                  <React.Fragment>
+                    <CheckBoxGroupInput
+                      label={property.description}
+                      values={field.value}
+                      handleChange={field.onChange}
+                      errorMessage={form.formState.errors[
+                        fieldName
+                      ]?.message?.toString()}
+                      isDisabled={field.disabled}
+                      items={property.items!}
+                    />
 
-                <InputSubItems
-                  fieldName={fieldName}
-                  property={property}
-                  values={field.value ? [...field.value] : []}
-                />
-              </React.Fragment>
-            )}
-          />
-        );
-      default:
-        return null;
-    }
-  });
+                    <InputSubItems
+                      fieldName={fieldName}
+                      property={property}
+                      values={field.value ? [...field.value] : []}
+                    />
+                  </React.Fragment>
+                )}
+              />
+            );
+          default:
+            return null;
+        }
+      })}
+
+      <SaveAndSubmitForm />
+    </FormProvider>
+  );
 };
 
 interface InputSubItemsProps {

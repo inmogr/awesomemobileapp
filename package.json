@@ -13,7 +13,8 @@
     "react": "18.3.1",
     "react-hook-form": "^7.54.2",
     "react-native": "0.77.0",
-    "react-native-collapsible": "^1.6.2"
+    "react-native-collapsible": "^1.6.2",
+    "react-native-mmkv": "^3.2.0"
   },
   "devDependencies": {
     "@babel/core": "^7.25.2",
