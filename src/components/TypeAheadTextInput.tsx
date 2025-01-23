@@ -51,6 +51,10 @@ const TypeAheadTextInput: React.FC<TypeAheadTextInputProps> = ({
   const onBlur = () => {
     if (filteredSuggestions.length) {
       handleSelect(filteredSuggestions[0]);
+    } else if (!suggestions.includes(value)) {
+      handleChange("");
+      setFilteredSuggestions([]);
+      setIsDropdownVisible(false);
     }
   };
 
