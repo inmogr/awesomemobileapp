@@ -1,10 +1,11 @@
 import React from 'react';
 import {useFormContext} from 'react-hook-form';
 import {
+  localStorage,
   localStorageGetObject,
   localStorageSetObject,
 } from '../utilities/localStorage';
-import {StyleSheet, Text, TouchableOpacity} from 'react-native';
+import {Pressable, StyleSheet, Text} from 'react-native';
 import {isObjectEmpty} from '../utilities/isObjectEmpty';
 
 export const SAVE_KEY = 'ABCD_FORM';
@@ -18,18 +19,27 @@ export const SaveAndSubmitForm: React.FC = () => {
     !isDirty ||
     !form.formState.isValid;
 
-  const watched = form.watch();
+  //
+  //
+  //
 
+  const watched = form.watch();
   React.useMemo(() => {
     localStorageSetObject(SAVE_KEY, watched);
   }, [watched]);
 
+  //
+  //
+  //
+
   const onPress = async () => {
-    //
+    console.log("watched", watched);
+    localStorage.clearAll();
+    form.reset();
   };
 
   return (
-    <TouchableOpacity
+    <Pressable
       style={[styles.button, isDisabled && styles.disabledButton]}
       onPress={onPress}
       disabled={isDisabled}>
@@ -37,7 +47,7 @@ export const SaveAndSubmitForm: React.FC = () => {
         style={[styles.buttonText, isDisabled && styles.disabledButtonText]}>
         Submit
       </Text>
-    </TouchableOpacity>
+    </Pressable>
   );
 };
 
