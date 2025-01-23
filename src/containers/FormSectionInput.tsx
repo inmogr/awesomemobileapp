@@ -61,6 +61,13 @@ export const FormSectionInput: React.FC<FormSectionInputProps> = ({
   //
   //
 
+  const properties = isVisible ? property.subitems || {} : {};
+  const propertyNames = Object.keys(properties);
+
+  //
+  //
+  //
+
   switch (property.type) {
     case 'text':
       return (
@@ -82,8 +89,8 @@ export const FormSectionInput: React.FC<FormSectionInputProps> = ({
               <Collapsible collapsed={!isVisible}>
                 <FormSection
                   parentId={fieldName}
-                  propertyNames={Object.keys(property.subitems || {})}
-                  properties={property.subitems || {}}
+                  properties={properties}
+                  propertyNames={propertyNames}
                 />
               </Collapsible>
             </React.Fragment>
@@ -111,8 +118,8 @@ export const FormSectionInput: React.FC<FormSectionInputProps> = ({
               <Collapsible collapsed={!isVisible}>
                 <FormSection
                   parentId={fieldName}
-                  propertyNames={Object.keys(property.subitems || {})}
-                  properties={property.subitems || {}}
+                  properties={properties}
+                  propertyNames={propertyNames}
                 />
               </Collapsible>
             </React.Fragment>
@@ -140,8 +147,8 @@ export const FormSectionInput: React.FC<FormSectionInputProps> = ({
               <Collapsible collapsed={!isVisible}>
                 <FormSection
                   parentId={fieldName}
-                  propertyNames={Object.keys(property.subitems || {})}
-                  properties={property.subitems || {}}
+                  properties={properties}
+                  propertyNames={propertyNames}
                 />
               </Collapsible>
             </React.Fragment>
@@ -169,8 +176,8 @@ export const FormSectionInput: React.FC<FormSectionInputProps> = ({
               <Collapsible collapsed={!isVisible}>
                 <FormSection
                   parentId={fieldName}
-                  propertyNames={Object.keys(property.subitems || {})}
-                  properties={property.subitems || {}}
+                  properties={properties}
+                  propertyNames={propertyNames}
                 />
               </Collapsible>
             </React.Fragment>

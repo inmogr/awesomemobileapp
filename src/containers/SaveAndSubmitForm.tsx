@@ -5,7 +5,7 @@ import {
   localStorageGetObject,
   localStorageSetObject,
 } from '../utilities/localStorage';
-import {Pressable, StyleSheet, Text} from 'react-native';
+import {Pressable, StyleSheet, Text, View} from 'react-native';
 import {isObjectEmpty} from '../utilities/isObjectEmpty';
 
 export const SAVE_KEY = 'ABCD_FORM';
@@ -33,25 +33,38 @@ export const SaveAndSubmitForm: React.FC = () => {
   //
 
   const onPress = async () => {
-    console.log("watched", watched);
+    console.log('watched', watched);
     localStorage.clearAll();
     form.reset();
   };
 
   return (
-    <Pressable
-      style={[styles.button, isDisabled && styles.disabledButton]}
-      onPress={onPress}
-      disabled={isDisabled}>
-      <Text
-        style={[styles.buttonText, isDisabled && styles.disabledButtonText]}>
-        Submit
-      </Text>
-    </Pressable>
+    <View>
+      <View style={styles.container}>
+        <Pressable
+          style={[styles.button, isDisabled && styles.disabledButton]}
+          onPress={onPress}
+          disabled={isDisabled}>
+          <Text
+            style={[
+              styles.buttonText,
+              isDisabled && styles.disabledButtonText,
+            ]}>
+            Submit
+          </Text>
+        </Pressable>
+      </View>
+    </View>
   );
 };
 
 const styles = StyleSheet.create({
+  container: {
+    position: 'absolute',
+    width: '100%',
+    bottom: 0,
+    paddingHorizontal: 20,
+  },
   button: {
     paddingVertical: 14,
     paddingHorizontal: 20,

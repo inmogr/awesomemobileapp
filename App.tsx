@@ -1,5 +1,5 @@
 import React from 'react';
-import {SafeAreaView, ScrollView, StatusBar} from 'react-native';
+import {SafeAreaView, ScrollView, StatusBar, View} from 'react-native';
 import FormData from './src/constants/FormData.json';
 import {FormType} from './src/types/FormTypes';
 import {FormProvider, useForm} from 'react-hook-form';
@@ -16,12 +16,12 @@ function App(): React.JSX.Element {
   const form = useForm({defaultValues: STORED_FROM_LAST_SESSION});
 
   return (
-    <SafeAreaView>
-      <StatusBar barStyle="dark-content" />
-      <ScrollView
-        contentInsetAdjustmentBehavior="automatic"
-        style={{paddingHorizontal: 16}}>
-        <FormProvider {...form}>
+    <FormProvider {...form}>
+      <SafeAreaView>
+        <StatusBar barStyle="dark-content" />
+        <ScrollView
+          contentInsetAdjustmentBehavior="automatic"
+          style={{paddingHorizontal: 16}}>
           {formDataSectionNames.map(formSectionName => {
             const formSection = formData[formSectionName];
 
@@ -35,10 +35,11 @@ function App(): React.JSX.Element {
             );
           })}
 
-          <SaveAndSubmitForm />
-        </FormProvider>
-      </ScrollView>
-    </SafeAreaView>
+          <View style={{ height: 48 }} />
+        </ScrollView>
+        <SaveAndSubmitForm />
+      </SafeAreaView>
+    </FormProvider>
   );
 }
 
