@@ -7,7 +7,6 @@ interface CheckBoxGroupInputProps {
   handleChange: (selectedValues: string[]) => void;
   isDisabled?: boolean;
   errorMessage?: string;
-  parentId?: string;
   items: string[];
 }
 

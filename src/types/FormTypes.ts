@@ -7,6 +7,9 @@ export interface FormPropertyType {
 
   items?: string[];
   enum?: string[];
+
+  subitems_visible_on?: string[];
+  subitems?: Record<string, FormPropertyType>;
 }
 
 export interface FormSectionType {

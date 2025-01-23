@@ -7,7 +7,6 @@ interface SingleLineTextInputProps {
   handleChange: (text: string) => void;
   isDisabled?: boolean;
   errorMessage?: string;
-  parentId?: string;
 }
 
 const SingleLineTextInput: React.FC<SingleLineTextInputProps> = ({

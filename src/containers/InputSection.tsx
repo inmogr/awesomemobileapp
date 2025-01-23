@@ -4,7 +4,7 @@ import RadioGroupInput from '../components/RadioGroupInput';
 import CheckBoxGroupInput from '../components/CheckBoxGroupInput';
 import {Controller, useForm} from 'react-hook-form';
 import {FormPropertyType, FormSectionType} from '../types/FormTypes';
-import TypeAheadTextInput from "../components/TypeAheadTextInput";
+import TypeAheadTextInput from '../components/TypeAheadTextInput';
 
 const getInitialValue = (property: FormPropertyType) => {
   switch (property.type) {
@@ -51,75 +51,111 @@ export const InputSection: React.FC<InputSectionProps> = props => {
       case 'text':
         return (
           <Controller
+            key={fieldName}
             control={form.control}
             name={fieldName}
             render={({field}) => (
-              <SingleLineTextInput
-                label={property.description}
-                value={field.value}
-                handleChange={field.onChange}
-                errorMessage={form.formState.errors[
-                  fieldName
-                ]?.message?.toString()}
-                isDisabled={field.disabled}
-              />
+              <React.Fragment>
+                <SingleLineTextInput
+                  label={property.description}
+                  value={field.value}
+                  handleChange={field.onChange}
+                  errorMessage={form.formState.errors[
+                    fieldName
+                  ]?.message?.toString()}
+                  isDisabled={field.disabled}
+                />
+
+                <InputSubItems
+                  fieldName={fieldName}
+                  property={property}
+                  values={field.value ? [field.value] : []}
+                />
+              </React.Fragment>
             )}
           />
         );
       case 'typeahead':
         return (
           <Controller
+            key={fieldName}
             control={form.control}
             name={fieldName}
             render={({field}) => (
-              <TypeAheadTextInput
-                label={property.description}
-                value={field.value}
-                handleChange={field.onChange}
-                errorMessage={form.formState.errors[
-                  fieldName
-                ]?.message?.toString()}
-                isDisabled={field.disabled}
-                suggestions={property.enum!}
-              />
+              <React.Fragment>
+                <TypeAheadTextInput
+                  label={property.description}
+                  value={field.value}
+                  handleChange={field.onChange}
+                  errorMessage={form.formState.errors[
+                    fieldName
+                  ]?.message?.toString()}
+                  isDisabled={field.disabled}
+                  suggestions={property.enum!}
+                />
+
+                <InputSubItems
+                  fieldName={fieldName}
+                  property={property}
+                  values={field.value ? [field.value] : []}
+                />
+              </React.Fragment>
             )}
           />
         );
       case 'select':
         return (
           <Controller
+            key={fieldName}
             control={form.control}
             name={fieldName}
             render={({field}) => (
-              <RadioGroupInput
-                label={property.description}
-                value={field.value}
-                handleChange={field.onChange}
-                errorMessage={form.formState.errors[
-                  fieldName
-                ]?.message?.toString()}
-                isDisabled={field.disabled}
-                items={property.items!}
-              />
+              <React.Fragment>
+                <RadioGroupInput
+                  label={property.description}
+                  value={field.value}
+                  handleChange={field.onChange}
+                  errorMessage={form.formState.errors[
+                    fieldName
+                  ]?.message?.toString()}
+                  isDisabled={field.disabled}
+                  items={property.items!}
+                />
+
+                <InputSubItems
+                  fieldName={fieldName}
+                  property={property}
+                  values={field.value ? [field.value] : []}
+                />
+              </React.Fragment>
             )}
           />
         );
       case 'multiselect':
         return (
           <Controller
+            key={fieldName}
             control={form.control}
             name={fieldName}
             render={({field}) => (
-              <CheckBoxGroupInput
-                label={property.description}
-                values={field.value}
-                handleChange={field.onChange}
-                errorMessage={form.formState.errors[
-                  fieldName
-                ]?.message?.toString()}
-                isDisabled={field.disabled}
-                items={property.items!}
-              />
+              <React.Fragment>
+                <CheckBoxGroupInput
+                  label={property.description}
+                  values={field.value}
+                  handleChange={field.onChange}
+                  errorMessage={form.formState.errors[
+                    fieldName
+                  ]?.message?.toString()}
+                  isDisabled={field.disabled}
+                  items={property.items!}
+                />
+
+                <InputSubItems
+                  fieldName={fieldName}
+                  property={property}
+                  values={field.value ? [...field.value] : []}
+                />
+              </React.Fragment>
             )}
           />
         );
@@ -127,4 +163,36 @@ export const InputSection: React.FC<InputSectionProps> = props => {
         return null;
     }
   });
+};
+
+interface InputSubItemsProps {
+  fieldName: string;
+  property: FormPropertyType;
+  values: string[];
+}
+
+export const InputSubItems: React.FC<InputSubItemsProps> = props => {
+  const [isVisible, setVisibility] = React.useState<boolean>(false);
+
+  React.useEffect(() => {
+    // The only thing subject to change here is values therefore others are not really important
+    if (!props.property.subitems || !props.property.subitems_visible_on) {
+      return;
+    }
+
+    const conditionsSet = new Set(props.property.subitems_visible_on);
+    const hasMatch = props.values.some(value => conditionsSet.has(value));
+    setVisibility(hasMatch);
+  }, [...props.values]);
+
+  if (!isVisible) {
+    return null;
+  }
+
+  return (
+    <InputSection
+      fieldNames={Object.keys(props.property.subitems!)}
+      properties={props.property.subitems!}
+    />
+  );
 };

@@ -7,7 +7,6 @@ interface RadioGroupInputProps {
   handleChange: (value: string) => void;
   isDisabled?: boolean;
   errorMessage?: string;
-  parentId?: string;
   items: string[];
 }
 

@@ -15,8 +15,34 @@
       },
       "m_have_67e232": {
         "type": "select",
-        "description": "What characteristics did the patient's pulse have?",
-        "items": ["ABSENT", "IRREGULAR", "THREADY", "WEAK", "WNL"]
+        "description": "Do you wanna see more questions?",
+        "items": ["No", "Yes", "Not Sure", "Show me"],
+        "subitems_visible_on": ["Yes", "Show me"],
+        "subitems": {
+          "n_fahrenheit_6c61xx": {
+            "type": "text",
+            "regex": ".*?",
+            "regexFlags": "s",
+            "description": "What was the patient's temperature in Fahrenheit?"
+          },
+          "r_measurement_71e0xx": {
+            "type": "text",
+            "regex": ".*?",
+            "regexFlags": "s",
+            "description": "Select the method used for temperature measurement"
+          },
+          "m_have_67ex2x": {
+            "type": "select",
+            "description": "What characteristics did the patient's pulse have?",
+            "items": ["ABSENT", "IRREGULAR", "THREADY", "WEAK", "WNL"]
+          },
+          "m_have_67e2xx": {
+            "type": "text",
+            "regex": ".*?",
+            "regexFlags": "s",
+            "description": "What characteristics did the patient's pulse have?"
+          }
+        }
       },
       "m_have_67e23f": {
         "type": "multiselect",

@@ -16,6 +16,7 @@ function App(): React.JSX.Element {
           const formSection = form[formSectionName];
           return (
             <InputSection
+              key={formSectionName}
               fieldNames={Object.keys(formSection.properties)}
               properties={formSection.properties}
             />

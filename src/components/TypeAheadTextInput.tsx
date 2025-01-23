@@ -14,7 +14,6 @@ interface TypeAheadTextInputProps {
   handleChange: (text: string) => void;
   isDisabled?: boolean;
   errorMessage?: string;
-  parentId?: string;
   suggestions: string[];
 }
 
