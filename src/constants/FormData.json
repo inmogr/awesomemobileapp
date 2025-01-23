@@ -10,15 +10,16 @@
       },
       "r_measurement_71e031": {
         "type": "typeahead",
-        "regex": ".*?",
-        "regexFlags": "s",
         "description": "Select the method used for temperature measurement",
         "enum": ["ORAL", "AXILLARY", "OTIC", "TEMPORAL"]
       },
+      "m_have_67e232": {
+        "type": "select",
+        "description": "What characteristics did the patient's pulse have?",
+        "items": ["ABSENT", "IRREGULAR", "THREADY", "WEAK", "WNL"]
+      },
       "m_have_67e23f": {
         "type": "multiselect",
-        "regex": ".*?",
-        "regexFlags": "s",
         "description": "What characteristics did the patient's pulse have?",
         "items": ["ABSENT", "IRREGULAR", "THREADY", "WEAK", "WNL"]
       }
