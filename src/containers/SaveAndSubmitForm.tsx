@@ -12,8 +12,9 @@ export const STORED_FROM_LAST_SESSION = localStorageGetObject(SAVE_KEY);
 
 export const SaveAndSubmitForm: React.FC = () => {
   const form = useFormContext();
-  const isDisabled = !isObjectEmpty(form.formState.errors) || !form.formState.isDirty || !form.formState.isValid;
-
+  const isDirty = !!STORED_FROM_LAST_SESSION || form.formState.isDirty;
+  const isDisabled = !isObjectEmpty(form.formState.errors) || !isDirty || !form.formState.isValid;
+  
   const watched = form.watch();
 
   React.useMemo(() => {
