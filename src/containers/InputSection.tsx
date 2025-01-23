@@ -5,6 +5,7 @@ import CheckBoxGroupInput from '../components/CheckBoxGroupInput';
 import {Controller, useForm} from 'react-hook-form';
 import {FormPropertyType, FormSectionType} from '../types/FormTypes';
 import TypeAheadTextInput from '../components/TypeAheadTextInput';
+import Collapsible from 'react-native-collapsible';
 
 const getInitialValue = (property: FormPropertyType) => {
   switch (property.type) {
@@ -182,17 +183,17 @@ export const InputSubItems: React.FC<InputSubItemsProps> = props => {
 
     const conditionsSet = new Set(props.property.subitems_visible_on);
     const hasMatch = props.values.some(value => conditionsSet.has(value));
-    setVisibility(hasMatch);
-  }, [...props.values]);
-
-  if (!isVisible) {
-    return null;
-  }
+    setTimeout(() => {
+      setVisibility(hasMatch);
+    }, 100);
+  }, [props.values]);
 
   return (
-    <InputSection
-      fieldNames={Object.keys(props.property.subitems!)}
-      properties={props.property.subitems!}
-    />
+    <Collapsible collapsed={!isVisible}>
+      <InputSection
+        fieldNames={Object.keys(props.property.subitems || {})}
+        properties={props.property.subitems || {}}
+      />
+    </Collapsible>
   );
 };
