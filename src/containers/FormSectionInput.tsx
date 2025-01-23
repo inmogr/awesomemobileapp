@@ -8,6 +8,11 @@ import Collapsible from 'react-native-collapsible';
 import TypeAheadTextInput from '../components/TypeAheadTextInput';
 import CheckBoxGroupInput from '../components/CheckBoxGroupInput';
 import RadioGroupInput from '../components/RadioGroupInput';
+import {
+  localStorage,
+  localStorageGetObject,
+  localStorageSetObject,
+} from '../utilities/localStorage';
 
 interface FormSectionInputProps {
   parentId: string;
@@ -24,6 +29,10 @@ export const FormSectionInput: React.FC<FormSectionInputProps> = ({
   const fieldName = combineParentChildName(parentId, propertyName);
   const watchedValue = form.watch(fieldName);
 
+  //
+  //
+  //
+
   const isMultiSelect = property.type === 'multiselect';
   const comparedValues: string[] = isMultiSelect
     ? watchedValue
@@ -37,6 +46,11 @@ export const FormSectionInput: React.FC<FormSectionInputProps> = ({
         ? new RegExp(property.regex, property.regexFlags)
         : undefined,
     });
+
+    const value = isMultiSelect
+      ? localStorageGetObject(fieldName) || []
+      : localStorage.getString(fieldName) || '';
+    form.setValue(fieldName, value);
   }, []);
 
   //
@@ -46,6 +60,12 @@ export const FormSectionInput: React.FC<FormSectionInputProps> = ({
   const [isVisible, setVisibility] = React.useState<boolean>(false);
 
   React.useEffect(() => {
+    if (typeof watchedValue === 'string') {
+      localStorage.set(fieldName, watchedValue);
+    } else if (typeof watchedValue === 'object') {
+      localStorageSetObject(fieldName, watchedValue);
+    }
+
     if (!property.subitems || !property.subitems_visible_on) {
       return;
     }

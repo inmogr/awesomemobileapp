@@ -3,17 +3,14 @@ import {SafeAreaView, ScrollView, StatusBar, View} from 'react-native';
 import FormData from './src/constants/FormData.json';
 import {FormType} from './src/types/FormTypes';
 import {FormProvider, useForm} from 'react-hook-form';
-import {
-  SaveAndSubmitForm,
-  STORED_FROM_LAST_SESSION,
-} from './src/containers/SaveAndSubmitForm';
+import {SaveAndSubmitForm} from './src/containers/SaveAndSubmitForm';
 import {FormSection} from './src/containers/FormSection';
 
 function App(): React.JSX.Element {
   const formData: FormType = FormData;
   const formDataSectionNames = Object.keys(formData);
 
-  const form = useForm({defaultValues: STORED_FROM_LAST_SESSION, shouldUnregister: true});
+  const form = useForm({shouldUnregister: true});
 
   return (
     <FormProvider {...form}>

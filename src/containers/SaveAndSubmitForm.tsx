@@ -1,41 +1,35 @@
 import React from 'react';
 import {useFormContext} from 'react-hook-form';
-import {
-  localStorage,
-  localStorageGetObject,
-  localStorageSetObject,
-} from '../utilities/localStorage';
+import {localStorage} from '../utilities/localStorage';
 import {Pressable, StyleSheet, Text, View} from 'react-native';
 import {isObjectEmpty} from '../utilities/isObjectEmpty';
-
-export const SAVE_KEY = 'ABCD_FORM';
-export const STORED_FROM_LAST_SESSION = localStorageGetObject(SAVE_KEY);
+import axios from 'axios';
 
 export const SaveAndSubmitForm: React.FC = () => {
   const form = useFormContext();
-  const isDirty = !!STORED_FROM_LAST_SESSION || form.formState.isDirty;
   const isDisabled =
     !isObjectEmpty(form.formState.errors) ||
-    !isDirty ||
+    !form.formState.isDirty ||
     !form.formState.isValid;
 
   //
   //
   //
 
-  const watched = form.watch();
-  React.useMemo(() => {
-    localStorageSetObject(SAVE_KEY, watched);
-  }, [watched]);
-
-  //
-  //
-  //
-
   const onPress = async () => {
-    console.log('watched', watched);
-    localStorage.clearAll();
-    form.reset();
+    try {
+      const res = await axios.post('http://localhost:8080/hello-world', {});
+      if (res.data) {
+        // as long as data returned successfully this means requested didn't crash and it means it was successful and it means we can deleted local data
+        // for now i'm clearing all, in real case we will remove form field names only
+        localStorage.clearAll();
+        setTimeout(() => {
+        form.reset();
+        }, 100);
+      }
+    } catch (error) {
+      // TODO
+    }
   };
 
   return (
