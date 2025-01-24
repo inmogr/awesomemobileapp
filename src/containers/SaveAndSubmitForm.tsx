@@ -17,8 +17,9 @@ export const SaveAndSubmitForm: React.FC = () => {
   //
 
   const onPress = async () => {
+    const values = form.getValues();
     try {
-      const res = await axios.post('http://localhost:8080/hello-world', {});
+      const res = await axios.post('http://localhost:8080/hello-world', { ...values });
       if (res.data) {
         // as long as data returned successfully this means requested didn't crash and it means it was successful and it means we can deleted local data
         // for now i'm clearing all, in real case we will remove form field names only
